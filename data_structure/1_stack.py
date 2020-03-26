@@ -13,7 +13,7 @@ class Stack:
         return self.items.pop()
 
     def peek(self):
-        return self.items[len(items) - 1]
+        return self.items[len(self.items) - 1]
 
     def isEmpty(self):
         return self.items == []
@@ -43,8 +43,65 @@ def parCheck(string):
         return False
 
 
-print(parCheck('(()))'))  # False
-print(parCheck('((())'))  # False
-print(parCheck('))'))    # False
-print(parCheck('(())'))  # True
-print(parCheck('(('))    # False
+# print(parCheck('(()))'))  # False
+# print(parCheck('((())'))  # False
+# print(parCheck('))'))    # False
+# print(parCheck('(())'))  # True
+# print(parCheck('(('))    # False
+
+# 符号配对
+# 检查是否配对，配对才出栈
+def symbolCheck(string):
+    stack = Stack()
+
+    for i in range(len(string)):
+        symbol = string[i]
+        if symbol in '({[':
+            stack.push(symbol)
+        else:
+            top = stack.peek()
+            if symbolmatch2(top, symbol):
+                stack.pop()
+            else:
+                return False
+
+    if stack.isEmpty():
+        return True
+
+    else:
+        return False
+
+# 左边符号是否和右边符号匹配
+# 常规思路 一个一个判断
+
+
+def symbolmatch(left, right):
+    if left == '(':
+        if right == ')':
+            return True
+        else:
+            return False
+
+    elif left == '{':
+        if right == '}':
+            return True
+        else:
+            return False
+    elif left == '[':
+        if right == ']':
+            return True
+        else:
+            return False
+
+# 2个固定列表, 判断下标是否相同
+
+
+def symbolmatch2(left, right):
+    opens = '{[('
+    closes = '}])'
+    return opens.index(left) == closes.index(right)
+
+
+print(symbolCheck('{[()]}'))
+print(symbolCheck('[[]]'))
+print(symbolCheck(r'[{]}'))
